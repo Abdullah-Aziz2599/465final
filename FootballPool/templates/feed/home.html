@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Dashboard</title>
+    {% include "bootstrap" %}
+  </head>
+  <body>
+    {% include "navbar.html" %}
+    <table>
+    {%for comment in comment_list%}
+    <tr>
+      <td>{{comment.comment}}</td>
+    </tr>
+    {%endfor%}
+  </table>
+    <form method = 'POST'>{%csrf_token%}
+      {{form}}
+      <button type = "submit" class = "btn btn-primary" name = addcomment>Add Comment</button>
+    </form>
+  </body>
+</html>

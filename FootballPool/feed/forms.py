@@ -2,7 +2,7 @@ from django import forms
 from feed.models import FeedItem
 
 
-class TaskForm(forms.ModelForm):
+class FeedForm(forms.ModelForm):
     class Meta:
         model = FeedItem
         fields = [

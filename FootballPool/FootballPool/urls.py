@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from core import views as core_views
+from feed import views as feed_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,4 +25,5 @@ urlpatterns = [
     path('login/', core_views.user_login, name='user_login'),
     path('logout/', core_views.user_logout, name='user_logout'),
     path('about/', core_views.about, name = 'about'),
+    path('feed/', feed_views.home, name = 'feed'),
 ]
