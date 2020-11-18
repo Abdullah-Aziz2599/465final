@@ -17,9 +17,13 @@
         {{comment.comment}}
         <br/>
         {% if comment.like%}
-        <a type = submit name = "like">Unlike</a>
+        <form method = 'POST'>{%csrf_token%}
+          <a href = "" type = submit name = "like">Unlike</a>
+        </form>
         {%else%}
-        <a style = "color: blue;" type = "submit" name = "unlike">Like</a>
+        <form method = 'POST'>{%csrf_token%}
+          <a href ="/feed/change/{{comment.id}}"style = "color: blue;" type = "submit" name = "unlike">Like</a>
+        </form>
         {%endif%}
         <br/>
     {%endfor%}
