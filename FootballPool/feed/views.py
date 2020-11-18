@@ -11,7 +11,7 @@ def home(request):
         form = FeedForm(request.POST)
         if form.is_valid():
             comment = form.cleaned_data["comment"]
-            FeedItem(comment = comment).save()
+            FeedItem(name = request.user,comment = comment).save()
         else:
             context["form"] = form
     return render(request, "feed/home.html", context)
