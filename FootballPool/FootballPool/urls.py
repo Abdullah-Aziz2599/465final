@@ -26,4 +26,5 @@ urlpatterns = [
     path('logout/', core_views.user_logout, name='user_logout'),
     path('about/', core_views.about, name = 'about'),
     path('feed/', feed_views.home, name = 'feed'),
+    path('like/', feed_views.like_post, name = 'likecomment'),
 ]

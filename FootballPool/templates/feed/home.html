@@ -16,15 +16,16 @@
       <br/>
         {{comment.comment}}
         <br/>
-        {% if comment.like%}
-        <form method = 'POST'>{%csrf_token%}
-          <a href = "" type = submit name = "like">Unlike</a>
+        <form action = "{% url 'likecomment'%}" method = 'POST'>{%csrf_token%}
+          <input type = 'hidden' name = 'comment_id' value = "{{comment.id}}">
+          {% if user not in comment.liked.all %}
+            <button href = "/feed/like/{{comment.id}}" type = submit name = "like">Like</button>
+          {%else%}
+            <form method = 'POST'>{%csrf_token%}
+              <button href ="/feed/like/{{comment.id}}"style = "color: blue;" type = "submit" name = "unlike">Unlike</button>
+          {%endif%}
         </form>
-        {%else%}
-        <form method = 'POST'>{%csrf_token%}
-          <a href ="/feed/change/{{comment.id}}"style = "color: blue;" type = "submit" name = "unlike">Like</a>
-        </form>
-        {%endif%}
+        <strong>{{comment.liked.all.count}} likes </strong>
         <br/>
     {%endfor%}
     {%else%}
