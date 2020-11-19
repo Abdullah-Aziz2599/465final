@@ -6,13 +6,18 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from core.models import UserProfile
 from django.contrib.auth.models import User
+from django.utils.crypto import get_random_string
 
 
 @login_required(login_url='/login/')
 def home(request):
     return render(request, "core/home.html")
+
+
 def about(request):
-    return render (request, "core/about.html")
+    return render(request, "core/about.html")
+
+
 def join(request):
     if (request.method == "POST"):
         join_form = JoinForm(request.POST)
@@ -22,12 +27,13 @@ def join(request):
             user.save()
             return redirect("/")
         else:
-            page_data = { "join_form": join_form }
+            page_data = {"join_form": join_form}
             return render(request, 'core/join.html', page_data)
     else:
         join_form = JoinForm()
-        page_data = { "join_form": join_form }
+        page_data = {"join_form": join_form}
         return render(request, 'core/join.html', page_data)
+
 
 def user_login(request):
     if (request.method == 'POST'):
@@ -38,7 +44,7 @@ def user_login(request):
             user = authenticate(username=username, password=password)
             if user:
                 if user.is_active:
-                    login(request,user)
+                    login(request, user)
                     return redirect("/")
                 else:
                     return HttpResponse("Your account is not active.")
@@ -46,6 +52,7 @@ def user_login(request):
                 return render(request, 'core/login.html', {"login_form": LoginForm})
     else:
         return render(request, 'core/login.html', {"login_form": LoginForm})
+
 
 @login_required(login_url='/login/')
 def user_logout(request):
