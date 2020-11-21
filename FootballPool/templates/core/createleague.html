@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {%load static%}
+    <meta charset="utf-8">
+    <title>Create League</title>
+    {% include "bootstrap" %}
+    <link rel="stylesheet" href="{%static 'create-join-league.css' %}" />
+  </head>
+  <body>
+    {% include "navbar.html" %}
+    <div class="container">
+      <div class = "jumbotron">
+        <h1><strong>Create League</strong></h1>
+        <form method = 'POST'>{%csrf_token%}
+          <table>
+            {{form}}
+          </table>
+          <button type="submit" class="btn btn-primary" name = "createleague">Create League</button>
+        </form>
+        <form method = 'GET'>
+          <button type="submit" class="btn btn-secondary" name = "cancel">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

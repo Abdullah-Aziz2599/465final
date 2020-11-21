@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from core.forms import JoinForm, LoginForm
+from core.forms import JoinForm, LoginForm, CreateLeagueForm, JoinLeague
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
@@ -12,7 +12,6 @@ from django.utils.crypto import get_random_string
 @login_required(login_url='/login/')
 def home(request):
     return render(request, "core/home.html")
-
 
 def about(request):
     return render(request, "core/about.html")
@@ -58,3 +57,29 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect("/")
+def createleague(request):
+    context = {"form":CreateLeagueForm}
+    if request.method == 'POST' and 'createleague' in request.POST:
+        form = CreateLeagueForm(request.POST)
+        if form.is_valid():
+            league_name = form.cleaned_data["league_name"]
+            league_password = form.cleaned_data["league_password"]
+            return redirect('/')
+        else:
+            context["form"] = form
+    elif request.method =='GET' and 'cancel' in request.GET:
+        return redirect('/')
+    return render(request, "core/createleague.html", context)
+def joinleague(request):
+    context = {"form":JoinLeague}
+    if request.method == 'POST' and 'joinleague' in request.POST:
+        form = JoinLeague(request.POST)
+        if form.is_valid():
+            league_id = form.cleaned_data["league_id"]
+            league_password = form.cleaned_data["league_password"]
+            return redirect('/')
+        else:
+            context["form"] = form
+    elif request.method =='GET' and 'cancel' in request.GET:
+        return redirect('/')
+    return render(request, "core/joinleague.html", context)

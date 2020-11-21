@@ -18,13 +18,13 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput())
 
 
-class CreateLeagueForm(forms.Form):
+class CreateLeagueForm(forms.ModelForm):
     class Meta():
         model = League
         fields = ['league_name', 'league_password']
 
 
-class JoinLeague(forms.Form):
+class JoinLeague(forms.ModelForm):
     class Meta():
         model = League
         fields = ['league_id', 'league_password']
