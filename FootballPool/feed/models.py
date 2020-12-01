@@ -32,7 +32,7 @@ class Like(models.Model):
 class DisLike(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.ForeignKey(FeedItem, on_delete=models.CASCADE)
-    value = models.CharField(choices = CHOICES, default='Like', max_length = 10)
+    value = models.CharField(choices = CHOICES, default='DisLike', max_length = 10)
 
     def __str__(self):
         return str(self.comment)
