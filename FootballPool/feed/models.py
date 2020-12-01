@@ -16,7 +16,18 @@ CHOICES=(
 ('Like', 'Like'),
 ('Unlike', 'Unlike'),
 )
+
+
 class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.ForeignKey(FeedItem, on_delete=models.CASCADE)
+    value = models.CharField(choices = CHOICES, default='Like', max_length = 10)
+
+    def __str__(self):
+        return str(self.comment)
+
+
+class DisLike(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.ForeignKey(FeedItem, on_delete=models.CASCADE)
     value = models.CharField(choices = CHOICES, default='Like', max_length = 10)

@@ -32,3 +32,22 @@ def like_post(request):
                 like.value = 'Like'
         like.save()
     return redirect('/feed/')
+
+
+def dis_like_post(request):
+    user = request.user
+    if request.method == 'POST':
+        comment_id = request.POST.get('comment_id')
+        feed_item = FeedItem.objects.get(id=comment_id)
+        if user in feed_item.disliked.all():
+            feed_item.disliked.remove(user)
+        else:
+            feed_item.disliked.add(user)
+        dislike, created = DisLike.objects.get_or_create(user=request.user, comment_id = comment_id)
+        if not created:
+            if dislike.value == 'Dislike':
+                like.value = 'Un-dislike'
+            else:
+                like.value = 'Dislike'
+        dislike.save()
+    return redirect('/feed/')
