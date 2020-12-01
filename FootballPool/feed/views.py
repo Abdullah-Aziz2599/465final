@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from feed.forms import FeedForm
-from feed.models import FeedItem, Like
+from feed.models import FeedItem, Like, DisLike
 
 def home(request):
     context = {"form":FeedForm, "comment_list":[]}
@@ -15,6 +15,7 @@ def home(request):
         else:
             context["form"] = form
     return render(request, "feed/home.html", context)
+
 def like_post(request):
     user = request.user
     if request.method == 'POST':
@@ -46,8 +47,8 @@ def dis_like_post(request):
         dislike, created = DisLike.objects.get_or_create(user=request.user, comment_id = comment_id)
         if not created:
             if dislike.value == 'Dislike':
-                like.value = 'Un-dislike'
+                dislike.value = 'Un-dislike'
             else:
-                like.value = 'Dislike'
+                dislike.value = 'Dislike'
         dislike.save()
     return redirect('/feed/')

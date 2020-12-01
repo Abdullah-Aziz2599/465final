@@ -29,6 +29,6 @@ urlpatterns = [
     path('about/', core_views.about, name = 'about'),
     path('feed/', feed_views.home, name = 'feed'),
     path('like/', feed_views.like_post, name = 'likecomment'),
-    path('dislike', feed_views.dis_like_post, name = 'dislikecomment'),
-    
+    path('dislike/', feed_views.dis_like_post, name = 'dislikecomment'),
+
 ]

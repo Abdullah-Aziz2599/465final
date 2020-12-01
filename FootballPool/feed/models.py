@@ -7,6 +7,8 @@ class FeedItem(models.Model):
     comment = models.CharField(max_length = 255)
     date = models.DateTimeField(auto_now_add = True)
     liked = models.ManyToManyField(User, default = None, blank = True, related_name = 'liked')
+    disliked = models.ManyToManyField(User, default = None, blank = True, related_name = 'disliked')
+
 
     @property
     def num_likes(self):

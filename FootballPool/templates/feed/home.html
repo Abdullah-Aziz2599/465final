@@ -25,7 +25,17 @@
               <button href ="/feed/like/{{comment.id}}"style = "color: blue;" type = "submit" name = "unlike">Unlike</button>
           {%endif%}
         </form>
+        <form action = "{% url 'dislikecomment'%}" method = 'POST'>{%csrf_token%}
+          <input type = 'hidden' name = 'comment_id' value = "{{comment.id}}">
+          {% if user not in comment.disliked.all %}
+            <button href = "/feed/dislike/{{comment.id}}" type = submit name = "like">Dislike</button>
+          {%else%}
+            <form method = 'POST'>{%csrf_token%}
+              <button href ="/feed/dislike/{{comment.id}}"style = "color: blue;" type = "submit" name = "unlike">Un-Dislike</button>
+          {%endif%}
+        </form>
         <strong>{{comment.liked.all.count}} likes </strong>
+        <strong>{{comment.disliked.all.count}} dislikes </strong>
         <br/>
     {%endfor%}
     {%else%}
