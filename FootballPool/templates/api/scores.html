@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    {% load static %}
+    <meta charset="utf-8">
+    <title>Scores</title>
+    {% include 'bootstrap' %}
+    <style>
+    .header p, h4
+    {
+    display: inline;
+    }
+    img{
+      float: left;
+      max-width: 30px;
+      width: 100%;
+      margin-right: 20px;
+      border-radius: 50%;
+    }
+    </style>
+  </head>
+  <body>
+    {% include 'navbar.html' %}
+    <div class="row" style = "margin-top: 10px;">
+      <div class="col-md-4">
+        <div class="container-fluid">
+          <div class = "jumbotron">
+            <div class = "header">
+              <h4><img src = "{% static 'images/NFL Team Logos/Seattle Seahawks.png' %}">Seattle Seahawks</h4>
+              <p style = "float: right; margin:auto;">12</p>
+            </div>
+            <div class = "header">
+              <h4><img src = "{% static 'images/NFL Team Logos/Washington Football Team.png' %}">Washington Football</h4>
+              <p style = "float: right;">12</p>
+            </div>
+            <div align = "center">
+            <p> Q4 10:14</p>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

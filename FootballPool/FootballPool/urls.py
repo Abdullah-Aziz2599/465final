@@ -17,6 +17,9 @@ from django.contrib import admin
 from django.urls import path
 from core import views as core_views
 from feed import views as feed_views
+from api import views as api_views
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,5 +33,8 @@ urlpatterns = [
     path('feed/', feed_views.home, name = 'feed'),
     path('like/', feed_views.like_post, name = 'likecomment'),
     path('dislike/', feed_views.dis_like_post, name = 'dislikecomment'),
+    path('settings/', core_views.settings, name = 'settings'),
+    path('stats/scores/', api_views.home, name = 'scores'),
 
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from core.models import League
+from core.models import League, UserProfile
 
 
 class JoinForm(forms.ModelForm):
@@ -28,3 +28,7 @@ class JoinLeague(forms.ModelForm):
     class Meta():
         model = League
         fields = ['league_id', 'league_password']
+class EditSettings(forms.ModelForm):
+    class Meta():
+        model = UserProfile
+        fields = ['first_name', 'last_name', 'email', 'profile_picture']

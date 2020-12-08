@@ -10,7 +10,7 @@ def home(request):
         form = FeedForm(request.POST)
         if form.is_valid():
             comment = form.cleaned_data["comment"]
-            FeedItem(user = request.user,name = request.user,comment = comment).save()
+            FeedItem(user = request.user,name = request.user,comment = comment, profile_picture = request.user.userprofile.profile_picture).save()
             return redirect('/feed/')
         else:
             context["form"] = form
@@ -24,6 +24,7 @@ def like_post(request):
         if user in feed_item.liked.all():
             feed_item.liked.remove(user)
         else:
+            feed_item.disliked.remove(user)
             feed_item.liked.add(user)
         like, created = Like.objects.get_or_create(user=request.user, comment_id = comment_id)
         if not created:
@@ -43,6 +44,7 @@ def dis_like_post(request):
         if user in feed_item.disliked.all():
             feed_item.disliked.remove(user)
         else:
+            feed_item.liked.remove(user)
             feed_item.disliked.add(user)
         dislike, created = DisLike.objects.get_or_create(user=request.user, comment_id = comment_id)
         if not created:
