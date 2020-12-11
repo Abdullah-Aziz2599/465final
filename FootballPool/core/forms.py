@@ -21,13 +21,15 @@ class LoginForm(forms.Form):
 class CreateLeagueForm(forms.ModelForm):
     class Meta():
         model = League
-        fields = ['league_name', 'league_password']
+        fields = ['league_name']
 
 
 class JoinLeague(forms.ModelForm):
     class Meta():
         model = League
-        fields = ['league_id', 'league_password']
+        fields = ['league_id']
+
+
 class EditSettings(forms.ModelForm):
     class Meta():
         model = UserProfile

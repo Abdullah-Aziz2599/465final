@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     {%load static%}
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Create League</title>
     {% include "bootstrap" %}
     <link rel="stylesheet" href="{%static 'create-join-league.css' %}" />
@@ -10,18 +10,31 @@
   <body>
     {% include "navbar.html" %}
     <div class="container">
-      <div class = "jumbotron">
+      <div class="jumbotron">
         <h1><strong>Create League</strong></h1>
-        <form method = 'POST'>{%csrf_token%}
+        <form method="POST">
+          {%csrf_token%}
           <table>
             {{form}}
           </table>
-          <button type="submit" class="btn btn-primary" name = "createleague">Create League</button>
+          <button type="submit" class="btn btn-primary" name="createleague">Create League</button>
         </form>
-        <form method = 'GET'>
-          <button type="submit" class="btn btn-secondary" name = "cancel">Cancel</button>
+        <form method="GET">
+          <button type="submit" class="btn btn-secondary" name="cancel">Cancel</button>
         </form>
       </div>
+      {% if messages %}
+      <ul class="messages">
+      {% for message in messages %}
+      <h2{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        {{ message }}
+      </h2>
+      <h3>You are now the commissioner of your private league "<strong>{{league_name}}</strong>" <br> Your league ID is: <strong>{{league_id}}</strong></h3>
+      <h5> <em>Copy your unique League ID and send to your friends and family! The league ID will allow them to join your private league.</em></h5>
+      {% endfor %}
+      </ul>
+      {% endif %}
     </div>
   </body>
 </html>
