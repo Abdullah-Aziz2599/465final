@@ -90,11 +90,23 @@ def createleague(request):
             new_league = League(league_commissioner=request.user,
                                 league_id=context["league_id"])
 
+            new_league.league_members.append(
+                UserProfile.objects.get(user=request.user).user.username)
+
+            # need to create new list everytime.
+            # check for duplicate usernames before appending.
+            #
+
             # need to save
             print(new_league.league_id)
             print(new_league.league_commissioner)
+            print(new_league.league_members)
             # print(new_league.league_commissioner)
             # return redirect('/')
+
+            # is this actually saving? why is () not working for save but it works for user save?
+            new_league.save()
+
         else:
             context["form"] = form
     elif request.method == 'GET' and 'cancel' in request.GET:
