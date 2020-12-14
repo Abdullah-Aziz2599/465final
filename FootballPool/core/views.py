@@ -15,6 +15,12 @@ from django.contrib import messages
 
 @login_required(login_url='/login/')
 def home(request):
+    context = {'leagues': []}
+    leagues = League.objects.all()
+    for league in leagues:
+        if request.user in league.league_members.all():
+            context['leagues'].append(league)
+            print(league.league_name)
     return render(request, "core/home.html")
 
 
@@ -75,36 +81,16 @@ def createleague(request):
             context["league_id"] = get_random_string(10)
             messages.success(request,
                              'League Created Successfully!')
-            # print(context["league_id"])
 
-            #new_league = League()
-            #new_league.league_id = context["league_id"]
-            # new_league.save()
-            # new_league.save()
-            # print(new_league.league_id)
-            # print(new_league.league_commissioner)
-            # create new group
-            # assign commissioner role to new group
-            # save unique league id to new group
+            new_league = League(league_commissioner=request.user,league_id=context["league_id"])
+            new_league.save()
+            new_league.league_members.add(request.user)
+            new_league.save()
 
-            new_league = League(league_commissioner=request.user,
-                                league_id=context["league_id"])
 
-            new_league.league_members.append(
-                UserProfile.objects.get(user=request.user).user.username)
-
-            # need to create new list everytime.
-            # check for duplicate usernames before appending.
-            #
-
-            # need to save
             print(new_league.league_id)
             print(new_league.league_commissioner)
-            print(new_league.league_members)
-            # print(new_league.league_commissioner)
-            # return redirect('/')
-
-            # is this actually saving? why is () not working for save but it works for user save?
+            print(new_league.league_members.all())
             new_league.save
 
         else:
@@ -112,25 +98,31 @@ def createleague(request):
     elif request.method == 'GET' and 'cancel' in request.GET:
         return redirect('/')
     return render(request, "core/createleague.html", context)
-
-
 def joinleague(request):
     context = {"form": JoinLeague}
     if request.method == 'POST' and 'joinleague' in request.POST:
         form = JoinLeague(request.POST)
         if form.is_valid():
             league_id = form.cleaned_data["league_id"]
-            # league_password = form.cleaned_data["league_password"]
-            # have user join group as a member with unique league id
-
+            try:
+                league_join = League.objects.get(league_id = league_id)
+            except:
+                print("League Doesnt Exist")
+            league_join.save()
+            if request.user in league_join.league_members.all():
+                print("Member already in League")
+                return render(request, "core/joinleague.html", context)
+            else:
+                league_join.league_members.add(request.user)
+                print("Member added to League")
+            league_join.save()
+            print(league_join.league_members.all())
             return redirect('/')
         else:
             context["form"] = form
     elif request.method == 'GET' and 'cancel' in request.GET:
         return redirect('/')
     return render(request, "core/joinleague.html", context)
-
-
 def settings(request):
     try:
         user = UserProfile.objects.get(user=request.user)
@@ -149,3 +141,10 @@ def settings(request):
                 comment.save()
     context = {'form': form}
     return render(request, 'core/settings.html', context)
+def get_all_leagues(request):
+    context = {'leagues': []}
+    leagues = League.objects.all()
+    for league in leagues:
+        if request.user in league.league_members.all():
+            context['leagues'].append(league)
+    return render(request, "navbar.html", context)

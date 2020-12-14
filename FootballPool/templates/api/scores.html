@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     {% load static %}
@@ -21,24 +21,48 @@
   </head>
   <body>
     {% include 'navbar.html' %}
+    {% for game in games %}
+    {% if is_there_scoreboard == True %}
     <div class="row" style = "margin-top: 10px;">
       <div class="col-md-4">
         <div class="container-fluid">
           <div class = "jumbotron">
             <div class = "header">
-              <h4><img src = "{% static 'images/NFL Team Logos/Seattle Seahawks.png' %}">Seattle Seahawks</h4>
-              <p style = "float: right; margin:auto;">12</p>
+              <h4><img src = "{% static 'images/NFL Team Logos/' %}{{game.away_team_image}}">{{game.away_team}}</h4>
+              <p style = "float: right; margin:auto;">{{game.away_score}}</p>
             </div>
             <div class = "header">
-              <h4><img src = "{% static 'images/NFL Team Logos/Washington Football Team.png' %}">Washington Football</h4>
-              <p style = "float: right;">12</p>
+              <h4><img src = "{% static 'images/NFL Team Logos/' %}{{game.home_team_image}}">{{game.home_team}}</h4>
+              <p style = "float: right;">{{game.home_score}}</p>
             </div>
             <div align = "center">
-            <p> Q4 10:14</p>
+              <p> Q{{game.current_period}} {{game.time_remaining}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <div class="row" style = "margin-top: 10px;">
+      <div class="col-md-4">
+        <div class="container-fluid">
+          <div class = "jumbotron">
+            <div class = "header">
+              <h4><img src = "{% static 'images/NFL Team Logos/' %}{{game.away_team_image}}">{{game.away_team}}</h4>
+              <p style = "float: right; margin:auto;">N/A</p>
+            </div>
+            <div class = "header">
+              <h4><img src = "{% static 'images/NFL Team Logos/' %}{{game.home_team_image}}">{{game.home_team}}</h4>
+              <p style = "float: right;">N/A</p>
+            </div>
+            <div align = "center">
+            <p> Scheduled {{game.game_date}}</p>
           </div>
           </div>
         </div>
       </div>
     </div>
+    {% endif %}
+    {% endfor %}
   </body>
-</html>
+</html> -->

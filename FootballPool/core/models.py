@@ -15,23 +15,9 @@ class UserProfile(models.Model):
         default="yoda.png", null=True, blank=True)
 
 
-# class League(models.Model):  # unique league
-#    league_name = models.CharField(max_length=30)
-#   league_id = models.CharField(max_length=10)
-#    league_commissioner = models.ForeignKey(
-#        User, on_delete=models.CASCADE, related_name="commissioner")  # only 1 user
-#    league_members = models.ForeignKey(
-#        User, on_delete=models.CASCADE, related_name="members")
-
-
-class League(Group):  # unique league
-    league_name = models.CharField(max_length=30)
-    league_id = models.CharField(max_length=10)
-
-    league_commissioner = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name="commissioner")  # only 1 user
-
-    # league members list of usernames
-    league_members = []
-    # def __str__(self):
-    # return self.league_id
+class League(models.Model):  # unique league
+   league_name = models.CharField(max_length=30)
+   league_id = models.CharField(max_length=10)
+   league_commissioner = models.ForeignKey(
+       User, on_delete=models.CASCADE, related_name="commissioner")  # only 1 user
+   league_members = models.ManyToManyField(User)
