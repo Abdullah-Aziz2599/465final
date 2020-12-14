@@ -105,7 +105,7 @@ def createleague(request):
             # return redirect('/')
 
             # is this actually saving? why is () not working for save but it works for user save?
-            new_league.save()
+            new_league.save
 
         else:
             context["form"] = form
