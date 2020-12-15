@@ -17,13 +17,8 @@ from django.contrib import messages
 def home(request):
     context = {'leagues': []}
     leagues = League.objects.all()
-    for league in leagues:
-        if request.user in league.league_members.all():
-            context['leagues'].append(league)
-            print(league.league_name)
-    return render(request, "core/home.html")
-
-
+    context['leagues'] = leagues
+    return render(request, "core/home.html", context)
 def about(request):
     return render(request, "core/about.html")
 
@@ -56,6 +51,11 @@ def user_login(request):
             user = authenticate(username=username, password=password)
             if user:
                 if user.is_active:
+                    try:
+                        UserProfile.objects.get(user=user)
+                    except:
+                        UserProfile.objects.create(user=user, first_name=user.first_name, last_name=user.last_name, email=user.email)
+
                     login(request, user)
                     return redirect("/")
                 else:
@@ -81,18 +81,15 @@ def createleague(request):
             context["league_id"] = get_random_string(10)
             messages.success(request,
                              'League Created Successfully!')
-
-            new_league = League(league_commissioner=request.user,league_id=context["league_id"])
+            new_league = League(league_name = context["league_name"],league_commissioner=request.user,league_id=context["league_id"])
             new_league.save()
             new_league.league_members.add(request.user)
             new_league.save()
-
-
             print(new_league.league_id)
             print(new_league.league_commissioner)
             print(new_league.league_members.all())
             new_league.save
-
+            return rediret('/')
         else:
             context["form"] = form
     elif request.method == 'GET' and 'cancel' in request.GET:
