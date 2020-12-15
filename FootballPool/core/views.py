@@ -104,16 +104,24 @@ def createleague(request):
             # print(request.user)
             new_league.save
             path = '/groupleague/' + str(new_league.id)
+            leagues = League.objects.all()
+            for league in leagues:
+                if request.user in league.league_members.all():
+                    context['leagues'].append(league)
             return redirect(path)
         else:
             context["form"] = form
+                # print("True")
+    elif request.method == 'GET' and 'cancel' in request.GET:
         leagues = League.objects.all()
         for league in leagues:
             if request.user in league.league_members.all():
                 context['leagues'].append(league)
-                # print("True")
-    elif request.method == 'GET' and 'cancel' in request.GET:
         return redirect('/')
+    leagues = League.objects.all()
+    for league in leagues:
+        if request.user in league.league_members.all():
+            context['leagues'].append(league)
     return render(request, "core/createleague.html", context)
 
 
@@ -145,11 +153,19 @@ def joinleague(request):
             # print(league_join.league_members.all())
             # print(league_join.id)
             path = '/groupleague/' + str(league_join.id)
+            leagues = League.objects.all()
+            for league in leagues:
+                if request.user in league.league_members.all():
+                    context['leagues'].append(league)
             return redirect(path)
         else:
             context["form"] = form
     elif request.method == 'GET' and 'cancel' in request.GET:
         return redirect('/')
+    leagues = League.objects.all()
+    for league in leagues:
+        if request.user in league.league_members.all():
+            context['leagues'].append(league)
     return render(request, "core/joinleague.html", context)
 
 
