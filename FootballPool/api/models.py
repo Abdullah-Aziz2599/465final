@@ -10,3 +10,4 @@ class Game(models.Model):
     time_remaining = models.CharField(max_length = 255)
     home_team_image = models.ImageField(null=True, blank=True)
     away_team_image = models.ImageField(null=True, blank=True)
+    game_date = models.CharField(max_length = 255)

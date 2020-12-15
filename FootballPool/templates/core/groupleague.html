@@ -3,18 +3,55 @@
   <head>
     {%load static%}
     <meta charset="utf-8">
-    <title>League</title> #League name goes here
+    <title>League</title>
     {% include "bootstrap" %}
     <link rel="stylesheet" href="{%static 'create-join-league.css' %}" />
+    <style>
+    img{
+      max-width: 30px;
+      border-radius: 50%;
+      margin-right: 5px;
+    }
+    </style>
   </head>
   <body>
     {% include "navbar.html" %}
-    #username and score displayed above graph
-    #leaderboard goes here
-    <div class="container">
-      <div class = "jumbotron">
-        
+    <h1 style = "text-align: center;"><strong>League Name: {{leagues_details.league_name}}</strong><h1>
+      <div class="row" style = "margin-top: 10px;">
+        <div class="col-md-4">
+          <div class="container-fluid">
+            <div class = "jumbotron">
+            <h4 style = "text-align:center;margin-top:-30px;"><strong> League Commissioner</strong></h4>
+              <p style = "font-size:20px; margin-top:20px;"> <img src="{{leagues_details.league_commissioner.userprofile.profile_picture.url}}"><strong>{{leagues_details.league_commissioner}}</strong></p>
+          </div>
+        </div>
       </div>
+        <div class="col-md-4">
+          <div class="container-fluid">
+            <div class = "jumbotron">
+            <h4 style = "text-align:center;margin-top:-30px;"><strong> League Members </strong></h4>
+              {% for users in leagues_details.league_members.all %}
+              <p style = "font-size:20px; margin-top:20px;"> <img src="{{users.userprofile.profile_picture.url}}"><strong>{{users}}</strong></p>
+              {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="container-fluid">
+          <div class = "jumbotron">
+          <h4 style = "text-align:center;margin-top:-30px;"><strong> Leaderboard </strong></h4>
+          <p style = "font-size:15px; float:left;">Member</p>
+          <p style = "font-size:15px; float:right;">W/L</p>
+        </br>
+            {% for users in leagues_details.league_members.all %}
+            <div style="overflow: hidden;">
+                <p style = "font-size:20px; float:left;"> <img src="{{users.userprofile.profile_picture.url}}"><strong>{{users}}</strong></p>
+                <p style = "font-size:20px;float:right;">0-0</p>
+            </div>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
     </div>
   </body>
 </html>

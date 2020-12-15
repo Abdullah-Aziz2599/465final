@@ -36,7 +36,7 @@
             <p> No Leagues Joined </p>
             {% else %}
               {% for group in leagues %}
-            <a class="dropdown-item" href="#">{{group.league_name}}</a>
+            <a class="dropdown-item" href="/groupleague/{{group.id}}">{{group.league_name}}</a>
             {% endfor %}
             {% endif %}
           </div>

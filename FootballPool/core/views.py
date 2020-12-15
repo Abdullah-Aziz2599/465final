@@ -166,3 +166,13 @@ def settings(request):
             context['leagues'].append(league)
             print("True")
     return render(request, 'core/settings.html', context)
+def groupleague(request, id):
+    context = {"leagues_details":[], "leagues":[]}
+    league = League.objects.get(id = id)
+    context["leagues_details"] = league
+    leagues = League.objects.all()
+    for league1 in leagues:
+        if request.user in league1.league_members.all():
+            context['leagues'].append(league1)
+            print("True")
+    return render(request, "core/groupleague.html", context)
