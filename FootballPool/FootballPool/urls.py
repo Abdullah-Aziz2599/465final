@@ -37,7 +37,8 @@ urlpatterns = [
     path('settings/', core_views.settings, name='settings'),
     path('stats/scores/', api_views.home, name='scores'),
     path("groupleague/<int:id>", core_views.groupleague, name='groupleague'),
-    path("form_submission/", scores_views.form_submission, name='form_submission')
+    path("form_submission/", scores_views.form_submission, name='form_submission'),
+    path("groupdel/<int:id>", core_views.leaveleague, name='groupdel'),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

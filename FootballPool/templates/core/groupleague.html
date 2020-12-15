@@ -50,6 +50,9 @@
                 <p style = "font-size:20px;float:right;">0-0</p>
             </div>
             {% endfor %}
+            {% if leagues_details.league_commissioner != request.user%}
+              <a type="submit" class="btn btn-danger" href = "/groupdel/{{leagues_details.id}}"> Leave League </a>
+              {%endif%}
         </div>
       </div>
     </div>

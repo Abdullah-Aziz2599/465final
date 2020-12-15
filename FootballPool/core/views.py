@@ -152,6 +152,11 @@ def joinleague(request):
         return redirect('/')
     return render(request, "core/joinleague.html", context)
 
+def leaveleague(request, id):
+    league = League.objects.get(id = id)
+    league.league_members.remove(request.user)
+    return redirect('/')
+
 
 def settings(request):
     try:
