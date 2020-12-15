@@ -33,6 +33,7 @@ def home(request):
     return render(request, "feed/home.html", context)
 
 def like_post(request):
+    context = {'leagues': []}
     user = request.user
     if request.method == 'POST':
         comment_id = request.POST.get('comment_id')
@@ -49,7 +50,7 @@ def like_post(request):
             else:
                 like.value = 'Like'
         like.save()
-        leagues = League.objects.all()
+    leagues = League.objects.all()
     for league in leagues:
         if request.user in league.league_members.all():
             context['leagues'].append(league)
@@ -58,6 +59,7 @@ def like_post(request):
 
 
 def dis_like_post(request):
+    context = {'leagues': []}
     user = request.user
     if request.method == 'POST':
         comment_id = request.POST.get('comment_id')
