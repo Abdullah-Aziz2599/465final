@@ -32,9 +32,13 @@
             Groups
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            {% if leagues|length == 0 %}
+            <p> No Leagues Joined </p>
+            {% else %}
               {% for group in leagues %}
             <a class="dropdown-item" href="#">{{group.league_name}}</a>
             {% endfor %}
+            {% endif %}
           </div>
         </li>
         {% endif %}

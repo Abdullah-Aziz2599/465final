@@ -53,4 +53,9 @@ def home(request):
     #         Game(home_team = home_team, away_team = away_team, away_score = -1, home_score = -1, current_period = -1, time_remaining = "-1", home_team_image = home_team_image, away_team_image = away_team_image, game_date = game_date).save()
     # game = Game.objects.all()
     # context['games'] = game
+    leagues = League.objects.all()
+    for league in leagues:
+        if request.user in league.league_members.all():
+            context['leagues'].append(league)
+            print("True")
     return render(request,'api/scores.html')

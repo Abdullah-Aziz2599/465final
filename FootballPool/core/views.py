@@ -17,10 +17,19 @@ from django.contrib import messages
 def home(request):
     context = {'leagues': []}
     leagues = League.objects.all()
-    context['leagues'] = leagues
+    for league in leagues:
+        if request.user in league.league_members.all():
+            context['leagues'].append(league)
+            print("True")
     return render(request, "core/home.html", context)
 def about(request):
-    return render(request, "core/about.html")
+    context = {"leagues":[]}
+    leagues = League.objects.all()
+    for league in leagues:
+        if request.user in league.league_members.all():
+            context['leagues'].append(league)
+            print("True")
+    return render(request, "core/about.html", context)
 
 
 def join(request):
@@ -75,7 +84,7 @@ def user_logout(request):
 
 
 def createleague(request):
-    context = {"form": CreateLeagueForm, "league_name": str, "league_id": str}
+    context = {"form": CreateLeagueForm, "league_name": str, "league_id": str, "leagues":[]}
     if request.method == 'POST' and 'createleague' in request.POST:
         form = CreateLeagueForm(request.POST)
         if form.is_valid():
@@ -85,20 +94,27 @@ def createleague(request):
                              'League Created Successfully!')
             new_league = League(league_name = context["league_name"],league_commissioner=request.user,league_id=context["league_id"])
             new_league.save()
-            new_league.league_members.add(request.user)
+            users = UserProfile.objects.filter(user = request.user).all()
+            for user in users:
+                new_league.league_members.add(user.user)
             new_league.save()
             print(new_league.league_id)
             print(new_league.league_commissioner)
             print(new_league.league_members.all())
+            print(request.user)
             new_league.save
-            return rediret('/')
         else:
             context["form"] = form
+        leagues = League.objects.all()
+        for league in leagues:
+            if request.user in league.league_members.all():
+                context['leagues'].append(league)
+                print("True")
     elif request.method == 'GET' and 'cancel' in request.GET:
         return redirect('/')
     return render(request, "core/createleague.html", context)
 def joinleague(request):
-    context = {"form": JoinLeague}
+    context = {"form": JoinLeague, "leagues":[]}
     if request.method == 'POST' and 'joinleague' in request.POST:
         form = JoinLeague(request.POST)
         if form.is_valid():
@@ -113,6 +129,11 @@ def joinleague(request):
                 return render(request, "core/joinleague.html", context)
             else:
                 league_join.league_members.add(request.user)
+                leagues = League.objects.all()
+                for league in leagues:
+                    if request.user in league.league_members.all():
+                        context['leagues'].append(league)
+                        print("True")
                 print("Member added to League")
             league_join.save()
             print(league_join.league_members.all())
@@ -138,12 +159,10 @@ def settings(request):
             for comment in comments:
                 comment.profile_picture = user.profile_picture
                 comment.save()
-    context = {'form': form}
-    return render(request, 'core/settings.html', context)
-def get_all_leagues(request):
-    context = {'leagues': []}
+    context = {'form': form, "leagues": []}
     leagues = League.objects.all()
     for league in leagues:
         if request.user in league.league_members.all():
             context['leagues'].append(league)
-    return render(request, "navbar.html", context)
+            print("True")
+    return render(request, 'core/settings.html', context)
