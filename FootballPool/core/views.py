@@ -136,8 +136,10 @@ def joinleague(request):
                         print("True")
                 print("Member added to League")
             league_join.save()
+
             print(league_join.league_members.all())
-            return redirect('/')
+            path = '/groupleague/' + str(league_join.id)
+            return redirect(path)
         else:
             context["form"] = form
     elif request.method == 'GET' and 'cancel' in request.GET:
