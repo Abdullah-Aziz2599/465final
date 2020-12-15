@@ -98,21 +98,25 @@ def createleague(request):
             for user in users:
                 new_league.league_members.add(user.user)
             new_league.save()
-            print(new_league.league_id)
-            print(new_league.league_commissioner)
-            print(new_league.league_members.all())
-            print(request.user)
+            # print(new_league.league_id)
+            # print(new_league.league_commissioner)
+            # print(new_league.league_members.all())
+            # print(request.user)
             new_league.save
+            path = '/groupleague/' + str(new_league.id)
+            return redirect(path)
         else:
             context["form"] = form
         leagues = League.objects.all()
         for league in leagues:
             if request.user in league.league_members.all():
                 context['leagues'].append(league)
-                print("True")
+                # print("True")
     elif request.method == 'GET' and 'cancel' in request.GET:
         return redirect('/')
     return render(request, "core/createleague.html", context)
+
+
 def joinleague(request):
     context = {"form": JoinLeague, "leagues":[]}
     if request.method == 'POST' and 'joinleague' in request.POST:
@@ -121,11 +125,12 @@ def joinleague(request):
             league_id = form.cleaned_data["league_id"]
             try:
                 league_join = League.objects.get(league_id = league_id)
+                print(league_join)
             except:
                 print("League Doesnt Exist")
             league_join.save()
             if request.user in league_join.league_members.all():
-                print("Member already in League")
+                # print("Member already in League")
                 return render(request, "core/joinleague.html", context)
             else:
                 league_join.league_members.add(request.user)
@@ -137,7 +142,8 @@ def joinleague(request):
                 print("Member added to League")
             league_join.save()
 
-            print(league_join.league_members.all())
+            # print(league_join.league_members.all())
+            # print(league_join.id)
             path = '/groupleague/' + str(league_join.id)
             return redirect(path)
         else:
@@ -145,6 +151,8 @@ def joinleague(request):
     elif request.method == 'GET' and 'cancel' in request.GET:
         return redirect('/')
     return render(request, "core/joinleague.html", context)
+
+
 def settings(request):
     try:
         user = UserProfile.objects.get(user=request.user)
