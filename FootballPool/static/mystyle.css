@@ -36,3 +36,8 @@ form{
 td{
   width:50%
 }
+
+.login_failure{
+  color: red ;
+  padding : 9px;
+}

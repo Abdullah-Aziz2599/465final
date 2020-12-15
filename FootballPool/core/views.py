@@ -48,6 +48,7 @@ def join(request):
 
 
 def user_login(request):
+    context = {"messages":"", "login_form" : LoginForm}
     if (request.method == 'POST'):
         login_form = LoginForm(request.POST)
         if login_form.is_valid():
@@ -61,9 +62,10 @@ def user_login(request):
                 else:
                     return HttpResponse("Your account is not active.")
             else:
-                return render(request, 'core/login.html', {"login_form": LoginForm})
+                context["messages"] = "Invalid username or password"
+                return render(request, 'core/login.html', context)
     else:
-        return render(request, 'core/login.html', {"login_form": LoginForm})
+        return render(request, 'core/login.html', context)
 
 
 @login_required(login_url='/login/')
