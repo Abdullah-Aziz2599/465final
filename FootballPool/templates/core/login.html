@@ -10,6 +10,9 @@
   <div class="container">
     <div class = "jumbotron">
       <h1>Login</h1>
+      <div class = "login_failure" style="color:red; padding:9px;">
+      {{messages}}
+    </div>
       <form action="/login/" method="POST">{% csrf_token %}
         <table>
             {{ login_form.as_table }}
