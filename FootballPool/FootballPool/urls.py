@@ -35,6 +35,7 @@ urlpatterns = [
     path('dislike/', feed_views.dis_like_post, name = 'dislikecomment'),
     path('settings/', core_views.settings, name = 'settings'),
     path('stats/scores/', api_views.home, name = 'scores'),
+    path("groupleague/", core_views.groupleague. name = 'groupleague')
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
