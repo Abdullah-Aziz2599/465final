@@ -7,9 +7,16 @@ from django.forms import formset_factory
 
 
 def form_submission(request):
-    formset = formset_factory(SubmissionForm, extra=2)
-    formset = SubmissionForm(initial=[
-        {'away_team': 'away team', 'home_team': 'Home Team'}
-    ])
+    context = {'submission_form': SubmissionForm}
 
-    return (request, 'form_submission.html')
+    if request.method == 'POST' and 'submit_form' in request.POST:
+        submission_form = SubmissionForm(request.POST)
+        print(submission_form)
+
+    elif request.method == 'GET' and 'cancel' in request.GET:
+        return redirect('/')
+
+    else:
+        context['submisssion_form'] = SubmissionForm
+
+    return render(request, 'scores/form_submission.html', context)

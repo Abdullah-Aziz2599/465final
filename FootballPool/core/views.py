@@ -22,8 +22,10 @@ def home(request):
             context['leagues'].append(league)
             print("True")
     return render(request, "core/home.html", context)
+
+
 def about(request):
-    context = {"leagues":[]}
+    context = {"leagues": []}
     leagues = League.objects.all()
     for league in leagues:
         if request.user in league.league_members.all():
@@ -52,7 +54,7 @@ def join(request):
 
 
 def user_login(request):
-    context = {"messages":"", "login_form" : LoginForm}
+    context = {"messages": "", "login_form": LoginForm}
     if (request.method == 'POST'):
         login_form = LoginForm(request.POST)
         if login_form.is_valid():
@@ -64,7 +66,8 @@ def user_login(request):
                     try:
                         UserProfile.objects.get(user=user)
                     except:
-                        UserProfile.objects.create(user=user, first_name=user.first_name, last_name=user.last_name, email=user.email)
+                        UserProfile.objects.create(
+                            user=user, first_name=user.first_name, last_name=user.last_name, email=user.email)
 
                     login(request, user)
                     return redirect("/")
@@ -84,7 +87,8 @@ def user_logout(request):
 
 
 def createleague(request):
-    context = {"form": CreateLeagueForm, "league_name": str, "league_id": str, "leagues":[]}
+    context = {"form": CreateLeagueForm,
+               "league_name": str, "league_id": str, "leagues": []}
     if request.method == 'POST' and 'createleague' in request.POST:
         form = CreateLeagueForm(request.POST)
         if form.is_valid():
@@ -92,9 +96,10 @@ def createleague(request):
             context["league_id"] = get_random_string(10)
             messages.success(request,
                              'League Created Successfully!')
-            new_league = League(league_name = context["league_name"],league_commissioner=request.user,league_id=context["league_id"])
+            new_league = League(
+                league_name=context["league_name"], league_commissioner=request.user, league_id=context["league_id"])
             new_league.save()
-            users = UserProfile.objects.filter(user = request.user).all()
+            users = UserProfile.objects.filter(user=request.user).all()
             for user in users:
                 new_league.league_members.add(user.user)
             new_league.save()
@@ -111,7 +116,7 @@ def createleague(request):
             return redirect(path)
         else:
             context["form"] = form
-                # print("True")
+            # print("True")
     elif request.method == 'GET' and 'cancel' in request.GET:
         leagues = League.objects.all()
         for league in leagues:
@@ -126,13 +131,13 @@ def createleague(request):
 
 
 def joinleague(request):
-    context = {"form": JoinLeague, "leagues":[]}
+    context = {"form": JoinLeague, "leagues": []}
     if request.method == 'POST' and 'joinleague' in request.POST:
         form = JoinLeague(request.POST)
         if form.is_valid():
             league_id = form.cleaned_data["league_id"]
             try:
-                league_join = League.objects.get(league_id = league_id)
+                league_join = League.objects.get(league_id=league_id)
                 print(league_join)
             except:
                 print("League Doesnt Exist")
@@ -168,8 +173,9 @@ def joinleague(request):
             context['leagues'].append(league)
     return render(request, "core/joinleague.html", context)
 
+
 def leaveleague(request, id):
-    league = League.objects.get(id = id)
+    league = League.objects.get(id=id)
     league.league_members.remove(request.user)
     return redirect('/')
 
@@ -197,9 +203,11 @@ def settings(request):
             context['leagues'].append(league)
             print("True")
     return render(request, 'core/settings.html', context)
+
+
 def groupleague(request, id):
-    context = {"leagues_details":[], "leagues":[]}
-    league = League.objects.get(id = id)
+    context = {"leagues_details": [], "leagues": []}
+    league = League.objects.get(id=id)
     context["leagues_details"] = league
     leagues = League.objects.all()
     for league1 in leagues:

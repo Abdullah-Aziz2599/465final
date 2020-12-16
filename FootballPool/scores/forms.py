@@ -4,5 +4,7 @@ from core.models import League, UserProfile
 
 
 class SubmissionForm(forms.Form):
-    away_team = forms.BooleanField()
-    home_team = forms.BooleanField()
+
+    CHOICES = [('away_team', 'away'), ('home_team', 'home')]
+
+    selection = forms.ChoiceField(widget=forms.Select, choices=CHOICES)

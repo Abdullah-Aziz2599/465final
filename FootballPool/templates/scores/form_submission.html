@@ -13,5 +13,15 @@
     {% include "navbar.html" %}
 
     <h3>weekly form submission</h3>
+    <form method="POST">
+      {%csrf_token%}
+      <table>
+        {{submission_form}}
+      </table>
+      <button type="submit" class="btn btn-primary" name="submit_form">Submit</button>
+    </form>
+    <form method="GET">
+      <button type="submit" class="btn btn-secondary" name="cancel">Cancel</button>
+    </form>
   </body>
 </html>
