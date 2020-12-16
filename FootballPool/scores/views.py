@@ -7,7 +7,9 @@ from django.forms import formset_factory
 
 
 def form_submission(request):
-    context = {'submission_form': SubmissionForm}
+    context = {'submission_form': SubmissionForm, 'games':[]}
+    games = Game.objects.all()
+    context['games'] = games
 
     if request.method == 'POST' and 'submit_form' in request.POST:
         submission_form = SubmissionForm(request.POST)
