@@ -26,23 +26,24 @@ def home(request):
     tomorrow = presentday + timedelta(1)
     tomorrow = tomorrow.strftime('%Y-%m-%d')
     print(tomorrow)
-    context = {'games': [], 'is_there_scoreboard':False, "leagues":[]}
+    context = {'games': [], 'is_there_scoreboard': False, "leagues": []}
     is_there_scoreboard = False
     game_date = ""
     ext = ".png"
     url = "https://sportspage-feeds.p.rapidapi.com/games"
 
-    querystring = {"league":"NFL", "date": tomorrow}
+    querystring = {"league": "NFL", "date": tomorrow}
 
     headers = {
         'x-rapidapi-key': "3d8c589af3msh9693745514aae90p10db67jsnd22121612369",
         'x-rapidapi-host': "sportspage-feeds.p.rapidapi.com"
     }
-    response = requests.request("GET", url, headers=headers, params=querystring)
+    response = requests.request(
+        "GET", url, headers=headers, params=querystring)
     json_data = json.loads(response.text)
     num_of_games = 0
-    num_of_games =  json_data["games"]
-    for i in range(0,num_of_games):
+    num_of_games = json_data["games"]
+    for i in range(0, num_of_games):
         for info in json_data["results"][i]:
             if info == "schedule":
                 game_date = json_data["results"][i]["schedule"]["date"]
@@ -62,11 +63,13 @@ def home(request):
         if context['is_there_scoreboard'] == True:
             temp = i + 1
             game_id = str(temp)
-            Game(home_team = home_team, away_team = away_team, away_score = away_score, home_score = home_score, current_period = current_period, time_remaining = time_remaining, home_team_image = home_team_image, away_team_image = away_team_image,game_date = game_date, game_id = game_id).save()
+            Game(home_team=home_team, away_team=away_team, away_score=away_score, home_score=home_score, current_period=current_period,
+                 time_remaining=time_remaining, home_team_image=home_team_image, away_team_image=away_team_image, game_date=game_date, game_id=game_id).save()
         else:
             temp = i + 1
             game_id = str(temp)
-            Game(home_team = home_team, away_team = away_team, away_score = -1, home_score = -1, current_period = -1, time_remaining = "-1", home_team_image = home_team_image, away_team_image = away_team_image, game_date = game_date, game_id = game_id).save()
+            Game(home_team=home_team, away_team=away_team, away_score=-1, home_score=-1, current_period=-1, time_remaining="-1",
+                 home_team_image=home_team_image, away_team_image=away_team_image, game_date=game_date, game_id=game_id).save()
         game = Game.objects.all()
         context['games'] = game
         leagues = League.objects.all()
@@ -153,8 +156,8 @@ def createleague(request):
         if form.is_valid():
             context["league_name"] = form.cleaned_data["league_name"]
             context["league_id"] = get_random_string(10)
-            messages.success(request,
-                             'League Created Successfully!')
+            # messages.success(request,
+            # 'League Created Successfully!')
             new_league = League(
                 league_name=context["league_name"], league_commissioner=request.user, league_id=context["league_id"])
             new_league.save()
