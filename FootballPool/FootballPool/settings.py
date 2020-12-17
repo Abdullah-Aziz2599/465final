@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'feed',
     'api',
     'scores',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

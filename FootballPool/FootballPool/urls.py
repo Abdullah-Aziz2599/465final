@@ -22,6 +22,19 @@ from scores import views as scores_views
 from django.conf.urls.static import static
 from django.conf import settings
 
+from rest_framework import routers
+from django.urls import include, path
+
+router = routers.DefaultRouter()
+router.register(r'feed', feed_views.FeedItemViewSet)
+router.register(r'game', api_views.GameViewSet)
+router.register(r'scores', scores_views.UserSelectionViewSet)
+router.register(r'like', feed_views.LikeViewSet)
+router.register(r'dislike', feed_views.DisLikeViewSet)
+router.register(r'users', feed_views.UserViewSet)
+router.register(r'users', scores_views.UserViewSet)
+router.register(r'users', api_views.UserViewSet)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', core_views.home, name='home'),
@@ -39,6 +52,8 @@ urlpatterns = [
     path("groupleague/<int:id>", core_views.groupleague, name='groupleague'),
     path("form_submission/", scores_views.form_submission, name='form_submission'),
     path("groupdel/<int:id>", core_views.leaveleague, name='groupdel'),
+    path('api/v1/', include(router.urls)),
+    path('api-auth/v1/', include('rest_framework.urls', namespace='rest_framework'))
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

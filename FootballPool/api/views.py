@@ -6,6 +6,11 @@ from datetime import datetime
 from pytz import timezone
 from core.models import League
 import pytz
+from django.contrib.auth.models import User
+
+from rest_framework import viewsets
+from rest_framework import permissions
+from api.serializers import GameSerializer, UserSerializer
 
 # Create your views here.
 def home(request):
@@ -64,3 +69,17 @@ def home(request):
             context['leagues'].append(league)
             print("True")
     return render(request,'api/scores.html', context)
+class GameViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Tasks to be viewed or edited.
+    """
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+    permission_classes = [permissions.IsAuthenticated]
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Users to be viewed or edited.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]

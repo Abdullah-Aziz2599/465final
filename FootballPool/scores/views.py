@@ -4,6 +4,11 @@ from core.models import League, UserProfile
 from django.forms import formset_factory
 from api.models import Game
 from scores.models import UserSelection
+from django.contrib.auth.models import User
+
+from rest_framework import viewsets
+from rest_framework import permissions
+from scores.serializers import UserSelectionSerializer, UserSerializer
 # Create your views here.
 
 
@@ -36,3 +41,17 @@ def form_submission(request):
         if request.user in league.league_members.all():
             context['leagues'].append(league)
     return render(request, 'scores/form_submission.html', context)
+class UserSelectionViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Tasks to be viewed or edited.
+    """
+    queryset = UserSelection.objects.all()
+    serializer_class = UserSelectionSerializer
+    permission_classes = [permissions.IsAuthenticated]
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Users to be viewed or edited.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]

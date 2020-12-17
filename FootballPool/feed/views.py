@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from feed.forms import FeedForm
 from feed.models import FeedItem, Like, DisLike
 from core.models import League
-
+from django.contrib.auth.models import User
+from rest_framework import viewsets, permissions
+from feed.serializers import FeedItemSerializer, LikeSerializer, DisLikeSerializer, UserSerializer
 def home(request):
     context = {"form":FeedForm, "comment_list":[], "leagues":[]}
     comment_list = FeedItem.objects.all()
@@ -82,3 +84,31 @@ def dis_like_post(request):
             context['leagues'].append(league)
             print("True")
     return redirect('/feed/')
+class FeedItemViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Tasks to be viewed or edited.
+    """
+    queryset = FeedItem.objects.all()
+    serializer_class = FeedItemSerializer
+    permission_classes = [permissions.IsAuthenticated]
+class LikeViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Tasks to be viewed or edited.
+    """
+    queryset = Like.objects.all()
+    serializer_class = LikeSerializer
+    permission_classes = [permissions.IsAuthenticated]
+class DisLikeViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Tasks to be viewed or edited.
+    """
+    queryset = DisLike.objects.all()
+    serializer_class = DisLikeSerializer
+    permission_classes = [permissions.IsAuthenticated]
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Users to be viewed or edited.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
