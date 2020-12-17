@@ -11,3 +11,4 @@ class Game(models.Model):
     home_team_image = models.ImageField(null=True, blank=True)
     away_team_image = models.ImageField(null=True, blank=True)
     game_date = models.CharField(max_length = 255)
+    game_id = models.CharField(max_length = 255)

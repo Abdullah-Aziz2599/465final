@@ -21,6 +21,9 @@
   </head>
   <body>
     {% include 'navbar.html' %}
+    {% if games|length == 0 %}
+    <h1>There are currently No Upcoming/Recent Games<h1>
+    {% endif %}
     {% for game in games %}
     {% if is_there_scoreboard == True %}
     <div class="row" style = "margin-top: 10px;">

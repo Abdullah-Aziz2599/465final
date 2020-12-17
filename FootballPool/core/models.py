@@ -13,6 +13,7 @@ class UserProfile(models.Model):
     email = models.CharField(max_length=200, null=True)
     profile_picture = models.ImageField(
         default="yoda.png", null=True, blank=True)
+    form_submit = models.BooleanField(default = False)
 
 
 class League(models.Model):  # unique league

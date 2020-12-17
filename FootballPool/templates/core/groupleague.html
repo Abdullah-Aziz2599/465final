@@ -57,5 +57,26 @@
       </div>
     </div>
     </div>
+    <div class="col-md-4">
+      <div class="container-fluid">
+        <div class = "jumbotron">
+        <h4 style = "text-align:center;margin-top:-30px;"><strong> Weekly Form Submission </strong></h4>
+        <p style = "font-size:15px; float:left;">Member</p>
+        <p style = "font-size:15px; float:right;">Status</p>
+      </br>
+          {% for users in leagues_details.league_members.all %}
+          <div style="overflow: hidden;">
+              <p style = "font-size:20px; float:left;"> <img src="{{users.userprofile.profile_picture.url}}"><strong>{{users}}</strong></p>
+              {% if users.userprofile.form_submit == True %}
+              <p style = "font-size:15px;float:right;">Submitted</p>
+              {% else %}
+              <p style = "font-size:15px;float:right;">Not Submitted</p>
+              {% endif %}
+          </div>
+          {% endfor %}
+            <p style = "font-size:15px;text-align:center;"> To fill out your submission form <a href = "/form_submission/">click here</a></p>
+      </div>
+    </div>
+  </div>
   </body>
 </html>

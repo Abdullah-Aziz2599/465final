@@ -1,10 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
-
-
-class team(models.Model):
-    team_name = models.CharField(max_length=255)
-
-class winners(models.Model):
-    winning_teams = models.ManyToManyField(team)
+class UserSelection(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    team_selected = models.CharField(max_length = 255)

@@ -21,7 +21,7 @@ def home(request):
     ext = ".png"
     url = "https://sportspage-feeds.p.rapidapi.com/games"
 
-    querystring = {"league":"NFL", "date": date}
+    querystring = {"league":"NFL", "date": "2020-12-13"}
 
     headers = {
         'x-rapidapi-key': "3d8c589af3msh9693745514aae90p10db67jsnd22121612369",
@@ -49,9 +49,13 @@ def home(request):
                 time_remaining = json_data["results"][i]["scoreboard"]["periodTimeRemaining"]
                 context['is_there_scoreboard'] = True
         if context['is_there_scoreboard'] == True:
-            Game(home_team = home_team, away_team = away_team, away_score = away_score, home_score = home_score, current_period = current_period, time_remaining = time_remaining, home_team_image = home_team_image, away_team_image = away_team_image,game_date = game_date).save()
+            temp = i + 1
+            game_id = str(temp)
+            Game(home_team = home_team, away_team = away_team, away_score = away_score, home_score = home_score, current_period = current_period, time_remaining = time_remaining, home_team_image = home_team_image, away_team_image = away_team_image,game_date = game_date, game_id = game_id).save()
         else:
-            Game(home_team = home_team, away_team = away_team, away_score = -1, home_score = -1, current_period = -1, time_remaining = "-1", home_team_image = home_team_image, away_team_image = away_team_image, game_date = game_date).save()
+            temp = i + 1
+            game_id = str(temp)
+            Game(home_team = home_team, away_team = away_team, away_score = -1, home_score = -1, current_period = -1, time_remaining = "-1", home_team_image = home_team_image, away_team_image = away_team_image, game_date = game_date, game_id = game_id).save()
     game = Game.objects.all()
     context['games'] = game
     leagues = League.objects.all()
